@@ -4,10 +4,48 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var session = require('express-session');
+const MongoStore = require('connect-mongo')(session); //this is for persistence
+
+var loginRouter = require('./routes/login');
+var complaintRouter = require('./routes/complaint');
+var executiveRouter = require('./routes/executive');
 
 var app = express();
+
+
+
+//setting up the connection to the database my way
+var mongoose = require('mongoose');
+const server = '127.0.0.1:27017'; // REPLACE WITH YOUR DB SERVER
+const database = 'mydb';      // REPLACE WITH YOUR DB NAME
+
+mongoose.connect(`mongodb://${server}/${database}`, {useNewUrlParser: true , useUnifiedTopology: true})
+	.then(() => {
+		console.log('database connected');
+	})
+	.catch(err => {
+		console.error('database connection error');
+	});
+//mongoose.Promise = global.Promise;
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDb connection error'));
+
+
+
+//setting up session
+app.use(session({
+  secret: 'ilovedumbdogs',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false ,
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  },
+  store: new MongoStore({
+    mongooseConnection: db
+  })
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,8 +57,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//app.use('/', indexRouter);
+app.use('/', loginRouter);
+app.use('/user/', complaintRouter);
+app.use('/executive/', executiveRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -37,5 +77,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;

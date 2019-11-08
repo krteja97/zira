@@ -1,0 +1,23 @@
+extends base
+
+block content
+	h3 Please submit the details which will be verified by your village beurocrats
+	
+	form(action='/register', method='POST')
+		p
+			| name:
+			input(type='text', name = 'name', placeholder = 'enter your name')
+			br
+			| email:
+			input(type='text', name = 'email', placeholder = 'enter your email id')
+			br
+			| mobile:
+			input(type='text', name = 'mobile', placeholder = 'enter your mobile')
+			br
+			| password:
+			input(type='text', name = 'password', placeholder = 'enter you password')
+			br
+			| Repassword:
+			input(type='text', name = 'repassword', placeholder = 'enter you password again')
+			br
+			input(type = 'submit', value = 'Submit')

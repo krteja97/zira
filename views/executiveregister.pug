@@ -1,0 +1,26 @@
+extends base
+
+block content
+	h3 Please submit the details. and you are the executive
+	
+	form(action='/executive', method='POST')
+		p
+			| name:
+			input(type='text', name = 'name', placeholder = 'enter your name')
+			br
+			| username:
+			input(type='text', name = 'username', placeholder = 'enter your username')
+			br
+			| date_of_birth:
+			input(type='text', name = 'date_of_birth', placeholder = 'enter your dateofbirth')
+			br
+			| designation:
+			input(type='text', name = 'designation', placeholder = 'enter your designation')
+			br
+			| password:
+			input(type='text', name = 'password', placeholder = 'enter you password')
+			br
+			| Repassword:
+			input(type='text', name = 'repassword', placeholder = 'enter you password again')
+			br
+			input(type = 'submit', value = 'Submit')

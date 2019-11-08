@@ -1,0 +1,9 @@
+extends userhomebase
+
+block content2
+	br
+	ul
+		each complaint, index in complaints_list
+			li 
+				a(href= hyperlinks_list[index]) #{complaint.subject}
+			br

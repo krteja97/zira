@@ -1,8 +1,19 @@
 body {
-  padding: 50px;
+  padding: 3px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
 }
 
 a {
   color: #00B7FF;
+}
+
+input {
+	padding: 2px;
+	text-align: center;
+	margin: 8px
+}
+
+ul {
+	display:table; margin:0 auto;
 }

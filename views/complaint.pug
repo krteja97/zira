@@ -1,0 +1,18 @@
+extends userhomebase
+
+block content2
+	h2 The complaint details.
+	ul
+		each key in keys
+			li= key + ':          ' + complaint[key]
+			br
+	ul
+		li executive_usernames: #{executives_names}
+		br
+	hr
+	h3 You want to delete the complaint?
+	a(href=deletelink): button(type="button") delete THis complaint
+	hr
+	hr
+	
+	

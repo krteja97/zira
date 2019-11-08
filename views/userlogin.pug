@@ -1,0 +1,17 @@
+extends base
+
+block content
+	h3 Please enter the proper details for user.
+	
+	
+	form(action='/userLogin', method='POST')
+		p
+			
+			| email:
+			input(type='text', name = 'email', placeholder = 'enter your email id')
+			br
+			
+			| password:
+			input(type='text', name = 'password', placeholder = 'enter you password')
+			br
+			input(type = 'submit', value = 'Submit')
