@@ -1,12 +1,12 @@
 extends base
 
 block content
-	p Please enter the proper details for user.
+	p Please enter your employee login credentials
 	<br>
 
 		form(action='/userLogin', method='POST')
 			p
-				| Email:
+				| Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				input(type='text',name = 'email', placeholder = 'Enter your email id' required)
 				br
 				| Password:

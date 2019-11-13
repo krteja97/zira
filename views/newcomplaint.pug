@@ -2,20 +2,19 @@ extends userhomebase
 
 block content2
 	br
-	h1 Heyy there! here we are here for adding the complaint
 	form(action='/user/newcomplaint', method='POST')
 		p
-			| Complaint subject:
+			| Subject
 			br
-			input(type='text', name = 'subject', placeholder = 'Enter the subject' required)
+			input(type='text', name = 'subject', placeholder = 'Enter Subject' required)
 			br
 			br
-			| Complaint body:
+			| Message
 			br
 			textarea(name='body',cols='40',rows="5")
 			br
 			br
-			| Additional details:
+			| Notes
 			br
 			textarea(name='extra',cols='40',rows="5")
 			br

@@ -15,9 +15,11 @@ router.get('/', function(req, res, next) {
 		var public_id;
 
 		usermodel.findOne({'email': req.session.email}, '_id' , function(err, users) {
-			if(err) {
-				console.log("sayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyf");
-				res.status(500).send('somethings fishy');
+			if(!users || err) {
+				req.session.email = null;
+				res.redirect('/');
+				// console.log("sayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyf");
+				// res.status(500).send('somethings fishy');
 			}
 			else {
 				console.log(users);
@@ -70,7 +72,6 @@ router.post('/newcomplaint', function(req, res, next) {
 
 	usermodel.findOne({'email': req.session.email}, '_id' , function(err, users) {
 		if(err) {
-			console.log("sayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyf");
 			res.status(500).send('somethings fishy');
 		}
 		else {
@@ -81,7 +82,6 @@ router.post('/newcomplaint', function(req, res, next) {
 
 			executivemodel.find({}, '_id', function(err, executives) {
 			if(err) {
-				console.log("sayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyf");
 				res.status(500).send('somethings fishy');
 			}
 			else {

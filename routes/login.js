@@ -66,8 +66,6 @@ router.post('/register', function(req, res, next){
 	res.render('userlogin', { title: 'Zira! Digitalizing India'});
 });
 
-
-
 // POST user login page
 router.post('/userLogin', function(req, res, next) {
 	console.log(req.body);
@@ -75,11 +73,18 @@ router.post('/userLogin', function(req, res, next) {
 	var password = req.body.password;
 
 	usermodel.find({'email': email, 'password': password}, 'name email', function(err, users) {
-		if(err)
+		if(err) {
 			return handleError(err);
-		console.log(users);
-		req.session.email = email;
-		console.log(req.session);
+		}
+		console.log("Blloom", users.length);
+		if (users.length == 0) {
+			res.redirect(401, "/user");
+			return;
+		} else {
+			console.log(users);
+			req.session.email = email;
+			console.log(req.session);
+		}
 		res.redirect('/user');
 	});
 	//res.send("user login done");

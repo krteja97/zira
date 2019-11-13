@@ -1,13 +1,24 @@
 extends userhomebase
 
 block content2
-	p The complaint details.
+	p Complaint Details
 	table(style="width:100%",border=1)
-		each key in keys
-			tr
-				th(style="padding:10px")=key
-				td(style="padding:10px")=complaint[key]
-	hr
-	p You want to delete the complaint?
+		tr
+			th(style="padding:10px")= "Subject"
+			td(style="padding:10px")= complaint['subject']
+		tr
+			th(style="padding:10px")= "Message"
+			td(style="padding:10px")= complaint['body']
+		tr
+			th(style="padding:10px")= "Notes"
+			td(style="padding:10px")= complaint['additional']
+		tr
+			th(style="padding:10px")= "Logging Time"
+			td(style="padding:10px")= complaint['timestamp']
+		tr
+			th(style="padding:10px")= "Status"
+			td(style="padding:10px")= complaint['current_status']
+	br
+	br
+	br
 	a(href=deletelink): button(type="button" class="button") Delete this complaint
-	hr
