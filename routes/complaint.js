@@ -3,9 +3,6 @@ var router = express.Router();
 
 var usermodel = require('../models/User');
 var complaintmodel = require('../models/Complaint');
-var messagemodel = require('../models/Message');
-var executivemodel = require('../models/Executive');
-
 
 // GET user home page
 router.get('/', function(req, res, next) {
@@ -78,20 +75,7 @@ router.post('/newcomplaint', function(req, res, next) {
 			console.log(users);
 			public_id = users._id;
 
-			var executives_array = [];
-
-			executivemodel.find({}, '_id', function(err, executives) {
-			if(err) {
-				res.status(500).send('somethings fishy');
-			}
-			else {
-				console.log(executives);
-				for (i = 0; i < executives.length; i++) {
-						executives_array.push(executives[i]._id);
-				};
-				console.log(executives_array);
-				executives_array =  select_executives(executives_array );
-				console.log("the returned array is" + executives_array);
+			
 
 				let complaint1 = new complaintmodel({
 					subject: subject,
@@ -99,7 +83,6 @@ router.post('/newcomplaint', function(req, res, next) {
 					additional: additional,
 					public_id: public_id,
 					timestamp: Date.now(),
-					executive_ids: executives_array //type the executive id's
 				});
 
 				complaint1.save()
@@ -109,9 +92,6 @@ router.post('/newcomplaint', function(req, res, next) {
 				.catch(err => {
 					console.log(err)
 					});
-
-			};
-		});
 
 		};
 	}).then(res.redirect('/user'));
@@ -129,7 +109,7 @@ router.get('/:complaintid', function(req, res, next) {
 	if(req.session.email) {
 		var complaintid = req.params.complaintid;
 		var keys = ['subject', 'body', 'additional', 'timestamp', 'public_id', 'current_status'];
-		var executives_names = [];
+		
 
 		complaintmodel.find( {_id: complaintid}, '', function(err, complaints) {
 			if(err) {
@@ -137,25 +117,13 @@ router.get('/:complaintid', function(req, res, next) {
 				res.status(500).send('somethings fishy');
 			}
 			else {
-				console.log(complaints[0].executive_ids);
-				executivemodel.find({_id: { $in: complaints[0].executive_ids }}, 'username', function(err, executives) {
-					if(err) {
-						console.log("sayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyf");
-						res.status(500).send('somethings fishy');
-					}
-					else {
-						for (i = 0; i < executives.length; i++) {
-							executives_names.push(executives[i].username);
-						};
-						console.log(executives_names);	
+					
 						console.log(complaints[0]);
 						res.render('complaint', { emailid: req.session.email, title: 'Zira! Digitalizing India', 
 									complaint: complaints[0], deletelink: "/user/deletecomplaint/" + complaints[0]._id,
-									 executives_names: executives_names, keys: keys});	
-					};
-				});
-
-			}
+									  keys: keys});	
+			};
+			
 		});		
 	}	
 	else {
@@ -185,7 +153,7 @@ router.get('/deletecomplaint/:complaintid', function(req, res, next) {
 	}
 });
 
-
+/*
 function select_executives(arr) {
 
 	//n is number of elements needed
@@ -284,7 +252,7 @@ function getStatus(current_status) {
 }
 
 
-setInterval(status_alter, 60000);
+setInterval(status_alter, 60000);*/
 
 module.exports = router;
 

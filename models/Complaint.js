@@ -20,11 +20,6 @@ var complaintScheme = mongoose.Schema({
 
 	additional: String,
 	timestamp: Date,
-	//executive id's must be placed here
-	executive_ids: [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Executive'
-	}],
 
 	current_status: {
 		type: String,

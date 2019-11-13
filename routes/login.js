@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 
 var usermodel = require('../models/User');
-var executivemodel = require('../models/Executive');
 
 
 /* GET home page. */
