@@ -1,17 +1,15 @@
 extends base
 
 block content
-	h3 Please enter the proper details for user.
-	
-	
-	form(action='/userLogin', method='POST')
-		p
-			
-			| email:
-			input(type='text', name = 'email', placeholder = 'enter your email id')
-			br
-			
-			| password:
-			input(type='text', name = 'password', placeholder = 'enter you password')
-			br
-			input(type = 'submit', value = 'Submit')
+	p Please enter the proper details for user.
+	<br>
+
+		form(action='/userLogin', method='POST')
+			p
+				| Email:
+				input(type='text',name = 'email', placeholder = 'Enter your email id' required)
+				br
+				| Password:
+				input(type='password',name = 'password', placeholder = 'Enter you password' required)
+				br
+				input(type = 'submit' ,class="button", value = 'Submit')

@@ -1,26 +1,26 @@
 extends base
 
 block content
-	h3 Please submit the details. and you are the executive
-	
+	p Please submit the details. and you are the executive
+
 	form(action='/executive', method='POST')
 		p
-			| name:
-			input(type='text', name = 'name', placeholder = 'enter your name')
+			| Name:
+			input(type='text', name = 'name', placeholder = 'enter your name' required)
 			br
-			| username:
-			input(type='text', name = 'username', placeholder = 'enter your username')
+			| Username:
+			input(type='text', name = 'username', placeholder = 'enter your username' required)
 			br
-			| date_of_birth:
-			input(type='text', name = 'date_of_birth', placeholder = 'enter your dateofbirth')
+			| Date_of_birth:
+			input(type='date', name = 'date_of_birth', placeholder = 'enter your dateofbirth' required)
 			br
-			| designation:
-			input(type='text', name = 'designation', placeholder = 'enter your designation')
+			| Designation:
+			input(type='text', name = 'designation', placeholder = 'enter your designation' required)
 			br
-			| password:
-			input(type='text', name = 'password', placeholder = 'enter you password')
+			| Password:
+			input(type='password', name = 'password', placeholder = 'enter you password' required)
 			br
-			| Repassword:
-			input(type='text', name = 'repassword', placeholder = 'enter you password again')
+			| Re-password:
+			input(type='password', name = 'repassword', placeholder = 'enter you password again' required)
 			br
-			input(type = 'submit', value = 'Submit')
+			input(type = 'submit',class="button", value = 'Submit')

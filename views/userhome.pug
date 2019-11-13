@@ -2,8 +2,8 @@ extends userhomebase
 
 block content2
 	br
-	ul
-		each complaint, index in complaints_list
-			li 
-				a(href= hyperlinks_list[index]) #{complaint.subject}
-			br
+	div(class="dropdown")
+		button(class="dropbtn") Complaints
+		div(class="dropdown-content")
+			each complaint,index in complaints_list
+				a(href=hyperlinks_list[index]) #{complaint.subject}

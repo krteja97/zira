@@ -1,13 +1,12 @@
 extends base
 
 block content
-	h2 
-		a(href='/userLogout') click here to Logout quickly
+	p Hi #{emailid} Welcome to your complaints page
 
-	h3 Hi #{emailid} welcome to your complaints page
+	h3
+		a(class="button", href='/user/newcomplaint') Launch a new complaint
 
-	h3 
-		a(href='/user/newcomplaint') want to launch a new complaint
+	h2
+		a(class="button" href='/userLogout') Logout
 
 	block content2
-

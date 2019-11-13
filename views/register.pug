@@ -1,23 +1,23 @@
 extends base
 
 block content
-	h3 Please submit the details which will be verified by your village beurocrats
-	
+	p Please submit the details which will be verified by your village beurocrats
+
 	form(action='/register', method='POST')
 		p
-			| name:
-			input(type='text', name = 'name', placeholder = 'enter your name')
+			| Name:
+			input(type='text', name = 'name', placeholder = 'enter your name' required)
 			br
-			| email:
-			input(type='text', name = 'email', placeholder = 'enter your email id')
+			| Email:
+			input(type='text', name = 'email', placeholder = 'enter your email id' required)
 			br
-			| mobile:
-			input(type='text', name = 'mobile', placeholder = 'enter your mobile')
+			| Mobile:
+			input(type='text', name = 'mobile', placeholder = 'enter your mobile' required)
 			br
-			| password:
-			input(type='text', name = 'password', placeholder = 'enter you password')
+			| Password:
+			input(type='password', name = 'password', placeholder = 'enter you password' required)
 			br
 			| Repassword:
-			input(type='text', name = 'repassword', placeholder = 'enter you password again')
+			input(type='password', name = 'repassword', placeholder = 'enter you password again' required)
 			br
-			input(type = 'submit', value = 'Submit')
+			input(type = 'submit',class="button", value = 'Submit')

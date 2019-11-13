@@ -1,18 +1,13 @@
 extends userhomebase
 
 block content2
-	h2 The complaint details.
-	ul
+	p The complaint details.
+	table(style="width:100%",border=1)
 		each key in keys
-			li= key + ':          ' + complaint[key]
-			br
-	ul
-		li executive_usernames: #{executives_names}
-		br
+			tr
+				th(style="padding:10px")=key
+				td(style="padding:10px")=complaint[key]
 	hr
-	h3 You want to delete the complaint?
-	a(href=deletelink): button(type="button") delete THis complaint
+	p You want to delete the complaint?
+	a(href=deletelink): button(type="button" class="button") Delete this complaint
 	hr
-	hr
-	
-	
