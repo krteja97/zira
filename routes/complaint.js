@@ -206,4 +206,85 @@ function select_executives(arr) {
 }
 
 
+
+async function status_alter() {
+
+	complaint_id_list = [];
+	console.log("running status_alter");
+
+	complaintmodel.find( {}, '_id', function(err, complaints) {
+				if(err) {
+					console.log("sayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyf");
+					res.status(500).send('somethings fishy');
+				}
+				else {
+
+					console.log("getting all the complaint ids");
+					for (i = 0; i < complaints.length; i++) {
+						complaint_id_list.push(complaints[i]._id);
+
+						complaintmodel.findOne({_id : complaints[i]._id}, '', async function(err, complaint1) {
+
+							if(err) {
+								console.log("sayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyf");
+								res.status(500).send('somethings fishy');
+							}
+
+
+							else {
+
+								console.log("started altering the complaint " + complaint1._id);
+								current_status = complaint1.current_status;
+
+								console.log(current_status);
+								var new_status = await getStatus(current_status);
+
+								complaintmodel.updateOne({_id: complaint1._id}, {$set: {current_status : new_status}},
+									{new :true} , function(err, complaint2) {
+									if(err) {
+										throw err;
+									}
+									else {
+										console.log("finished altering the complaint " + complaint1._id);
+									}
+								});	
+							}		
+
+						});
+
+					};
+					console.log(complaint_id_list );
+				}
+			
+
+	});
+
+};
+
+function getStatus(current_status) {
+	new_status = "hehe";
+
+	if(current_status == 'not opened') {
+		new_status = 'opened';
+	}
+	else if(current_status == 'opened') {
+		new_status = 'in process';
+	}
+	else if(current_status == 'in process') {
+		new_status = 'finished';
+	}
+	else if(current_status == 'finished') {
+		// just dont change
+		new_status = 'closed';
+	}
+	else {
+		new_status = "permanent close";
+	};
+	return new_status;
+}
+
+
+setInterval(status_alter, 60000);
+
 module.exports = router;
+

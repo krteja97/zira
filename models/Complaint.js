@@ -28,7 +28,6 @@ var complaintScheme = mongoose.Schema({
 
 	current_status: {
 		type: String,
-		enum: ['not opened', 'in process', 'finished'],
 		default: 'not opened',
 	},
 
