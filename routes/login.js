@@ -7,11 +7,14 @@ var usermodel = require('../models/User');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   if(req.session.email) {
-  	res.redirect('/user');
+	res.redirect('/user');
   	res.end();
   }
   else
-  	res.render('home', { title: 'Zira! Digitalizing India' });
+  	res.render('home', {
+  		title: 'Zira! Digitalizing India',
+  		isLoggedIn: false,
+  	});
   //parameters can be sent from here
 });
 
@@ -22,7 +25,10 @@ router.get('/register', function(req, res, next) {
   		res.end();
     }
     else
-		res.render('register', { title: 'Zira! Digitalizing India'} );
+		res.render('register', {
+			title: 'Zira! Digitalizing India',
+			isLoggedIn: false,
+		});
 });
 
 // GET User Login page
@@ -32,7 +38,10 @@ router.get('/userLogin', function(req, res, next) {
   		res.end();
   	}
   	else
-		res.render('userlogin', { title: 'Zira! Digitalizing India'});
+		res.render('userlogin', {
+			title: 'Zira! Digitalizing India',
+			isLoggedIn: false,
+		});
 });
 
 
@@ -62,7 +71,10 @@ router.post('/register', function(req, res, next){
 		console.log(err)
 	});
 
-	res.render('userlogin', { title: 'Zira! Digitalizing India'});
+	res.render('userlogin', {
+		title: 'Zira! Digitalizing India',
+		isLoggedIn: false,
+	});
 });
 
 // POST user login page

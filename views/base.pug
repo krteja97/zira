@@ -6,7 +6,9 @@ html
 	body
 		header(class='jumbotron')
 			h1= title
-			a(href="/") Home
+			a(href="/" style="padding: 10px") Home
+			if isLoggedIn
+				a(href="/" style="padding: 10px") Logout
 			p Welcome to the revenue complaint logging system for Bharat
 			br
 			br

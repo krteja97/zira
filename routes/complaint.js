@@ -36,8 +36,13 @@ router.get('/', function(req, res, next) {
 					};
 					console.log(hyperlinks_list);	
 				};
-				res.render('userhome', { emailid: req.session.email, title: 'Zira! Digitalizing India', 
-									complaints_list: complaints , hyperlinks_list: hyperlinks_list});
+				res.render('userhome', {
+					emailid: req.session.email,
+					title: 'Zira! Digitalizing India', 
+					isLoggedIn: true,
+					complaints_list: complaints ,
+					hyperlinks_list: hyperlinks_list
+				});
 			});
 
 		});
@@ -50,7 +55,11 @@ router.get('/', function(req, res, next) {
 // GET file a new complaint
 router.get('/newcomplaint', function(req, res, next) {
 	if(req.session.email) {
-		res.render('newcomplaint', {emailid: req.session.email, title: 'Zira! Digitalizing India'});
+		res.render('newcomplaint', {
+			emailid: req.session.email,
+			title: 'Zira! Digitalizing India',
+			isLoggedIn: true,
+		});
 	}
 	else {
 		res.redirect('/');
@@ -75,7 +84,6 @@ router.post('/newcomplaint', function(req, res, next) {
 			console.log(users);
 			public_id = users._id;
 
-			
 
 				let complaint1 = new complaintmodel({
 					subject: subject,
@@ -119,7 +127,10 @@ router.get('/:complaintid', function(req, res, next) {
 			else {
 					
 						console.log(complaints[0]);
-						res.render('complaint', { emailid: req.session.email, title: 'Zira! Digitalizing India', 
+						res.render('complaint', {
+									emailid: req.session.email,
+									title: 'Zira! Digitalizing India',
+									isLoggedIn: true,
 									complaint: complaints[0], deletelink: "/user/deletecomplaint/" + complaints[0]._id,
 									  keys: keys});	
 			};

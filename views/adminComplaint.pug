@@ -1,0 +1,63 @@
+extends base
+
+block content
+	p Complaint Details
+	table
+		tr
+			th(style="padding:10px")= "Subject"
+			td(style="padding:10px")= complaint['subject']
+		tr
+			th(style="padding:10px")= "Message"
+			td(style="padding:10px")= complaint['body']
+		tr
+			th(style="padding:10px")= "Notes"
+			td(style="padding:10px")= complaint['additional']
+		tr
+			th(style="padding:10px")= "Logging Time"
+			td(style="padding:10px")= complaint['timestamp']
+		tr
+			th(style="padding:10px")= "Status"
+			td(style="padding:10px")= complaint['current_status']
+	br
+	br
+	br
+	div
+		p(style="display: inline") Change Status: 
+		select#status
+			option(value='not opened') Not Opened
+			option(value='opened') Opened
+			option(value='in process') In Process
+			option(value='finished') Finished
+			option(value='closed') Closed
+			option(value='permanent close') Permanantly Closed
+	br
+	a: button(type="button" class="button" onClick="updateStatus()") Update Status
+	br
+	br
+	br
+	a(href=deletelink): button(type="button" class="button" id="delete") Delete this complaint
+	script.
+		function setSelectedValue(selectObj, valueToSet) {
+			for (var i = 0; i < selectObj.options.length; i++) {
+				console.log(selectObj.options[i].value);
+				if (selectObj.options[i].value == valueToSet) {
+					selectObj.options[i].selected = true;
+					return;
+				}
+			}
+		}
+
+		const statusDropdown = document.getElementById("status");
+		const complaint_id = "#{complaint_id}";
+		setSelectedValue(statusDropdown, "#{complaint['current_status']}");
+
+		document.getElementById('delete').onclick = function () {
+			window.location.href = "/admin/delete/" + complaint_id;
+		}
+
+		function updateStatus() {
+			const selectedStatus = statusDropdown.options[statusDropdown.selectedIndex].value;
+			console.log("Here", selectedStatus, complaint_id);
+			let path = "/admin/" + complaint_id + "/updatestatus/" + selectedStatus;
+			window.location.href = (path);
+		}

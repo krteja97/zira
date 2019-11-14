@@ -1,0 +1,15 @@
+extends base
+
+block content
+	p Please enter admin credentials
+	<br>
+
+		form(action='/admin/login', method='POST')
+			p
+				| Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				input(type='text',name = 'email', placeholder = 'Enter your email id' required)
+				br
+				| Password:
+				input(type='password',name = 'password', placeholder = 'Enter your password' required)
+				br
+				input(type = 'submit' ,class="button", value = 'Submit')

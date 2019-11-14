@@ -1,0 +1,18 @@
+extends base
+
+block content
+	p 	Hello Admin, Welcome to your dashboard
+	<br>
+	table#complaints-table
+		tr
+			th ID
+			th Subject
+			th Status
+			th
+		each complaint in complaints_list
+			tr
+				td= complaint['id']
+				td= complaint['subject']
+				td= complaint['current_status']
+				td
+					a(href= complaint['hyperlink'] style="color: black") View

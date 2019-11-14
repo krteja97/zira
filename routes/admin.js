@@ -9,11 +9,12 @@ var complaintmodel = require('../models/Complaint');
 // GET admin Login page
 router.get('/login', function(req, res, next) {
 	if(req.session.email) {
-  		res.redirect('/admin/');
+  		res.redirect('/admin/dashboard');
   		res.end();
   	}
-  	else
-		res.render('adminlogin', { title: 'Zira! Digitalizing India'});
+  	else {
+		res.render('adminLogin', { title: 'Zira! Digitalizing India', isLoggedIn: false});
+	}
 });
 
 
@@ -27,18 +28,21 @@ router.post('/login', function(req, res, next) {
 		if(err) {
 			return handleError(err);
 		}
-		console.log("Blloom", users.length);
+
+		users.push({
+			email: email
+		});
+
 		if (users.length == 0) {
-			res.redirect(401, "/");
+			res.redirect(401, "/admin/login");
 			return;
 		} else {
-			console.log(users);
-			req.session.email = email;
+			req.session.email = req.body.email;
+			req.session.isAdmin = true;
 			console.log(req.session);
 		}
-		res.redirect('/admin/');
+		res.redirect('/admin/dashboard');
 	});
-	//res.send("user login done");
 });
 
 
@@ -61,30 +65,37 @@ router.get('/logout', function(req, res, next) {
 
 
 // GET user home page
-router.get('/', function(req, res, next) {
+router.get('/dashboard', function(req, res, next) {
 	if(req.session.email) {
 		complaints_list = new Array();
 		hyperlinks_list = [];
 		var public_id;
 
-			
-			//got the user id now get the complaints
-			complaintmodel.find( {}, '', function(err, complaints) {
-				if(err) {
-					console.log("sayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyf");
-					res.status(500).send('somethings fishy');
-				}
-				else {
-
-					for (i = 0; i < complaints.length; i++) {
-						hyperlinks_list.push("/admin/" + complaints[i]._id);
-					};
-					console.log(hyperlinks_list);	
+		//got the user id now get the complaints
+		complaintmodel.find( {}, '', function(err, complaints) {
+			let responseComplaints = [];
+			if(err) {
+				res.status(500).send('somethings fishy');
+			}
+			else {
+				for (i = 0; i < complaints.length; i++) {
+					responseComplaints.push({});
+					let id = complaints[i]._id.toString();
+					id = id.substr(id.length - 3);
+					responseComplaints[i].id = id;
+					responseComplaints[i].hyperlink = "/admin/" + complaints[i]._id;
+					responseComplaints[i].subject = complaints[i].subject;
+					responseComplaints[i].current_status = complaints[i].current_status;
 				};
-				res.render('adminhome', { emailid: req.session.email, title: 'Zira! Digitalizing India', 
-									complaints_list: complaints , hyperlinks_list: hyperlinks_list});
+			};
+			console.log(responseComplaints);
+			res.render('adminDashboard', {
+				emailid: req.session.email,
+				title: 'Zira! Digitalizing India', 
+				isLoggedIn: true,
+				complaints_list: responseComplaints
 			});
-
+		});
 	}
 	else
 		res.redirect('/');
@@ -107,8 +118,14 @@ router.get('/:complaintid', function(req, res, next) {
 			else {
 				
 				console.log(complaints[0]);
-				res.render('complaint', { emailid: req.session.email, title: 'Zira! Digitalizing India', 
-									complaint: complaints[0], keys: keys});	
+				res.render('adminComplaint', {
+					emailid: req.session.email,
+					title: 'Zira! Digitalizing India',
+					isLoggedIn: true,
+					complaint: complaints[0],
+					keys: keys,
+					complaint_id: complaintid
+				});
 			}
 		});		
 	}	
@@ -117,11 +134,34 @@ router.get('/:complaintid', function(req, res, next) {
 	};
 });
 
-//GET update complaint status
-router.get('/:complaintid/updatestatus', function(req, res, next) {
+router.get('/delete/:complaintid', function(req, res, next) {
 	if(req.session.email) {
 		var complaintid = req.params.complaintid;
-		var new_status = req.params.new_status;
+		console.log(complaintid);
+
+		complaintmodel.remove({
+			_id: complaintid
+		}, function (err) {
+			if (err) {
+				res.status(500).send(err);
+			} else {
+				res.redirect('/admin/dashboard');
+			}
+		});
+	}
+	else {
+		res.redirect('/');
+	};
+});
+
+
+//GET update complaint status
+router.get('/:complaintid/updatestatus/:status', function(req, res, next) {
+	if(req.session.email) {
+		var complaintid = req.params.complaintid;
+		console.log(req.body, req.params);
+		var new_status = req.params.status;
+		console.log(new_status);
 		console.log(complaintid + "hello");
 
 		complaintmodel.updateOne( {_id: complaintid}, {$set: {current_status: new_status}},
@@ -131,12 +171,12 @@ router.get('/:complaintid/updatestatus', function(req, res, next) {
 										}
 										else {
 											console.log("finished altering the complaint " );
-											res.redirect('/admin');
+											res.redirect('/admin/dashboard');
 										}
 		});
 	}	
 	else {
-		res.redirect('/');
+		res.redirect('/dashboard');
 	}
 
 });
